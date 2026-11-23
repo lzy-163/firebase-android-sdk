@@ -4,9 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       javaVersion:
+        type: string
       androidEmulatorApiLevel:
+        type: string
       nodeJsVersion:
+        type: string
       firebaseToolsVersion:
+        type: string
       gradleInfoLog:
         type: boolean
   pull_request:
@@ -186,7 +190,7 @@ jobs:
             set -eux && ./gradlew ${{ (inputs.gradleInfoLog && '--info') || '' }} :firebase-dataconnect:connectedCheck :firebase-dataconnect:connectors:connectedCheck
 
       - uses: actions/upload-artifact@v4
-        if: true
+        if: always()
         with:
           name: logs
           path: "**/*.log"
@@ -194,6 +198,7 @@ jobs:
           compression-level: 9
 
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: gradle_build_reports
           path: firebase-dataconnect/**/build/reports/
